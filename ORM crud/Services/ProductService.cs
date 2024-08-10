@@ -28,10 +28,10 @@ namespace ORM_crud.Services
             return products;
         }
 
-        public async Task<Product> GetById(int id)
+        public async Task<Product> GetByIdAsync(int id)
         {
             AppDbContext context = new AppDbContext();
-            var product=await context.Products.FirstOrDefaultAsync(p=>p.Id == id);
+            var product=await context.Products.Include(p=>p.Category).FirstOrDefaultAsync(p=>p.Id == id);
             if (product == null)
                 throw new NotFoundException($"Cant find Product with id:{id}");
             

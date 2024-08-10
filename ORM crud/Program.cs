@@ -46,7 +46,7 @@ CategoryService categoryservice = new CategoryService();
 
 try
 {
-    Product product = await productService.GetById(2);
+    var product = await productService.GetByIdAsync(6);
     Console.WriteLine($"Name:{product.Name} Price:{product.Price} Category:{product.Category.Name}");
 
 }
@@ -57,3 +57,42 @@ catch (NotFoundException e)
 
 
 
+try
+{
+    var product = await productService.GetByIdAsync(3);
+    product.Name = "Xalca";
+    productService.UpdateAsync(product);
+    Console.WriteLine($"Name:{product.Name} Price:{product.Price} Category:{product.Category.Name}");
+
+}
+catch (NotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+
+Product product1 = new Product
+{
+    Name = "Tozsoran",
+    Price = 125,
+    CategoryId = 1
+};
+productService.CreateAsync(product1);
+
+
+
+
+try
+{
+    await productService.DeleteAsync(2);
+    Console.WriteLine("Silindi!");
+}
+catch(NotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+List<Product> products = await productService.GetAllAsync();
+foreach (Product item in products)
+{
+    Console.WriteLine($"Name:{item.Name} Price:{item.Price} Category:{item.Category.Name}");
+}
